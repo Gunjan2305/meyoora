@@ -1,0 +1,16 @@
+# Shopify CLI / Theme Kit
+.shopify/
+.theme-check.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
+# Logs and databases
+*.log
+*.sqlite
+
+# IDE files
+.vscode/
+.idea/
