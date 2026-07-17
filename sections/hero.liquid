@@ -458,12 +458,13 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} hero--layout-{{ section.settings.layout | default: 'full-width' }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
     --blur-opacity: {{ section.settings.reflection_opacity | divided_by: 100.0 }};
+    --hero-border-radius: {{ section.settings.border_radius | default: 0 }}px;
     {% if section.settings.section_height == 'custom' %}
       --hero-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == "full-screen" %}
@@ -570,6 +571,7 @@
     position: relative;
     overflow: hidden;
     border: var(--hero-border-width) var(--hero-border-style) rgb(var(--color-border-rgb) / var(--hero-border-opacity));
+    border-radius: var(--hero-border-radius, 0px);
     min-height: inherit;
     align-items: var(--vertical-alignment-mobile);
     justify-content: var(--horizontal-alignment);
@@ -577,6 +579,19 @@
 
     @media screen and (min-width: 750px) {
       align-items: var(--vertical-alignment);
+    }
+  }
+
+  .hero--layout-boxed {
+    padding-inline: var(--grid-gap, 16px);
+    padding-block: var(--grid-gap, 16px);
+    background-color: var(--color-background);
+  }
+
+  @media screen and (min-width: 750px) {
+    .hero--layout-boxed {
+      padding-inline: 40px;
+      padding-block: 40px;
     }
   }
 
@@ -1220,6 +1235,36 @@
       "unit": "%",
       "default": 75,
       "visible_if": "{{ section.settings.blurred_reflection and section.settings.media_type_1 != 'video' or section.settings.media_type_2 != 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Shape"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Hero layout",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed (Card)"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",
