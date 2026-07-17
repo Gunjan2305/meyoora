@@ -50,8 +50,8 @@
             "custom_button_text": "#ffffff",
             "custom_button_border": "#641b16",
             "link_text_color": "",
-            "width": "fit-content",
-            "custom_width": 100,
+            "width": "custom",
+            "custom_width": 20,
             "width_mobile": "fit-content",
             "custom_width_mobile": 100
           },
