@@ -27,16 +27,47 @@
             "text_color": ""
           },
           "blocks": {}
+        },
+        "announcement_P39P4a": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Save 10% off on your first prepaid order with 'FIRSTPAY10'",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        },
+        "announcement_B3RCEh": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "Shop our latest arrivals!",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_BxgCk9",
+        "announcement_P39P4a",
+        "announcement_B3RCEh"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "#641B16",
+        "background_color": "#641b16",
         "divider_width": 0,
         "divider_color": "",
         "padding-block-start": 15,
@@ -89,6 +120,8 @@
         "show_search": true,
         "search_position": "right",
         "search_row": "top",
+        "show_wishlist": true,
+        "wishlist_link": "",
         "show_country": true,
         "country_selector_style": false,
         "show_language": true,
@@ -108,8 +141,8 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#FAF8F6",
-        "text_color_top": "#641B16",
+        "background_color_top": "#faf8f6",
+        "text_color_top": "#641b16",
         "background_color_bottom": "",
         "text_color_bottom": "",
         "bubble_style": "default",
