@@ -298,15 +298,32 @@
     },
     "collection_tabs_custom": {
       "type": "collection-tabs",
+      "blocks": {
+        "tab_1_block": {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Collection",
+            "collection_1": "all",
+            "collection_2": "all",
+            "collection_3": "all",
+            "collection_4": "all"
+          }
+        },
+        "tab_2_block": {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Women",
+            "collection_1": "all",
+            "collection_2": "all",
+            "collection_3": "all"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1_block",
+        "tab_2_block"
+      ],
       "settings": {
-        "tab_1_title": "Shop by Collection",
-        "tab_1_collections": [
-          "all"
-        ],
-        "tab_2_title": "Shop by Women",
-        "tab_2_collections": [
-          "all"
-        ],
         "background_color": "#FAF8F6",
         "section_width": "page-width",
         "icons_style": "arrow",

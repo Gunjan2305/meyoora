@@ -21,23 +21,30 @@
   >
     <!-- Tab navigation buttons -->
     <div class="collection-tabs__header">
-      <button type="button" class="collection-tabs__tab-btn active" data-tab="tab-1-{{ section.id }}">
-        {{ section.settings.tab_1_title | default: 'Shop by Collection' }}
-      </button>
-      <button type="button" class="collection-tabs__tab-btn" data-tab="tab-2-{{ section.id }}">
-        {{ section.settings.tab_2_title | default: 'Shop by Women' }}
-      </button>
+      {% for block in section.blocks %}
+        {% if block.type == 'tab' %}
+          <button
+            type="button"
+            class="collection-tabs__tab-btn{% if forloop.first %} active{% endif %}"
+            data-tab="tab-{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.title | default: 'Tab Title' }}
+          </button>
+        {% endif %}
+      {% endfor %}
     </div>
 
     <div class="collection-tabs__body">
       <!-- Left side: dynamic title and SVG curve arrow -->
       <div class="collection-tabs__left">
-        <h2 class="collection-tabs__title collection-tabs__title--tab-1-{{ section.id }} active">
-          {{ section.settings.tab_1_title | default: 'Shop by Collection' }}
-        </h2>
-        <h2 class="collection-tabs__title collection-tabs__title--tab-2-{{ section.id }}">
-          {{ section.settings.tab_2_title | default: 'Shop by Women' }}
-        </h2>
+        {% for block in section.blocks %}
+          {% if block.type == 'tab' %}
+            <h2 class="collection-tabs__title collection-tabs__title--tab-{{ block.id }}{% if forloop.first %} active{% endif %}">
+              {{ block.settings.title | default: 'Tab Title' }}
+            </h2>
+          {% endif %}
+        {% endfor %}
         <div class="collection-tabs__arrow">
           <svg width="50" height="50" viewBox="0 0 50 50" fill="none" style="stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;">
             <path d="M10 10 C 10 30, 25 35, 40 35" />
@@ -48,95 +55,79 @@
 
       <!-- Right side: Carousels -->
       <div class="collection-tabs__right">
-        
-        <!-- Tab 1 Slider -->
-        <div class="collection-tabs__content active" id="tab-1-{{ section.id }}-content">
-          {%- liquid
-            assign tab_1_collections = section.settings.tab_1_collections
-            assign tab_1_count = tab_1_collections.count
-          -%}
-          {% if tab_1_collections != blank %}
-            {% capture tab_1_slides %}
-              {% for collection in tab_1_collections %}
-                <div class="resource-list__item">
-                  <div class="collection-tabs__card">
-                    <a href="{{ collection.url }}" class="collection-tabs__card-link">
-                      <div class="collection-tabs__card-image-wrapper">
-                        {% if collection.featured_image != blank %}
-                          {{ collection.featured_image | image_url: width: 400 | image_tag: class: 'collection-tabs__card-image', loading: 'lazy' }}
-                        {% else %}
-                          {{ 'collection-1' | placeholder_svg_tag: 'collection-tabs__card-image placeholder-svg' }}
-                        {% endif %}
-                      </div>
-                      <h3 class="collection-tabs__card-title">{{ collection.title }}</h3>
-                    </a>
-                  </div>
-                </div>
-                {% unless forloop.last %}
-                  <!--@list/split-->
-                {% endunless %}
-              {% endfor %}
-            {% endcapture %}
-            
-            {% assign tab_1_slides_arr = tab_1_slides | strip | split: '<!--@list/split-->' %}
-            
-            {% render 'resource-list',
-              list_items: tab_1_slides,
-              list_items_array: tab_1_slides_arr,
-              settings: section.settings,
-              carousel_ref: 'tab1Carousel',
-              slide_count: tab_1_count,
-              content_type: 'collections'
-            %}
-          {% else %}
-            <p class="collection-tabs__empty-msg">No collections selected for Tab 1.</p>
-          {% endif %}
-        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'tab' %}
+            <div class="collection-tabs__content{% if forloop.first %} active{% endif %}" id="tab-{{ block.id }}-content">
+              {%- liquid
+                # Loop and build slides list
+              -%}
+              {% capture tab_slides %}
+                {% for i in (1..8) %}
+                  {% capture col_key %}collection_{{ i }}{% endcapture %}
+                  {% capture img_key %}image_{{ i }}{% endcapture %}
+                  {% capture title_key %}title_{{ i }}{% endcapture %}
+                  {% capture link_key %}link_{{ i }}{% endcapture %}
 
-        <!-- Tab 2 Slider -->
-        <div class="collection-tabs__content" id="tab-2-{{ section.id }}-content">
-          {%- liquid
-            assign tab_2_collections = section.settings.tab_2_collections
-            assign tab_2_count = tab_2_collections.count
-          -%}
-          {% if tab_2_collections != blank %}
-            {% capture tab_2_slides %}
-              {% for collection in tab_2_collections %}
-                <div class="resource-list__item">
-                  <div class="collection-tabs__card">
-                    <a href="{{ collection.url }}" class="collection-tabs__card-link">
-                      <div class="collection-tabs__card-image-wrapper">
-                        {% if collection.featured_image != blank %}
-                          {{ collection.featured_image | image_url: width: 400 | image_tag: class: 'collection-tabs__card-image', loading: 'lazy' }}
-                        {% else %}
-                          {{ 'collection-2' | placeholder_svg_tag: 'collection-tabs__card-image placeholder-svg' }}
-                        {% endif %}
-                      </div>
-                      <h3 class="collection-tabs__card-title">{{ collection.title }}</h3>
-                    </a>
-                  </div>
-                </div>
-                {% unless forloop.last %}
-                  <!--@list/split-->
-                {% endunless %}
-              {% endfor %}
-            {% endcapture %}
-            
-            {% assign tab_2_slides_arr = tab_2_slides | strip | split: '<!--@list/split-->' %}
-            
-            {% render 'resource-list',
-              list_items: tab_2_slides,
-              list_items_array: tab_2_slides_arr,
-              settings: section.settings,
-              carousel_ref: 'tab2Carousel',
-              slide_count: tab_2_count,
-              content_type: 'collections'
-            %}
-          {% else %}
-            <p class="collection-tabs__empty-msg">No collections selected for Tab 2.</p>
-          {% endif %}
-        </div>
+                  {% assign collection = block.settings[col_key] %}
+                  {% assign custom_img = block.settings[img_key] %}
+                  {% assign custom_title = block.settings[title_key] %}
+                  {% assign custom_link = block.settings[link_key] %}
 
+                  {% assign card_title = custom_title | default: collection.title %}
+                  {% assign card_link = custom_link | default: collection.url %}
+                  {% assign card_image = custom_img | default: collection.featured_image %}
+
+                  {% if card_title != blank or card_link != blank or card_image != blank %}
+                    <div class="resource-list__item">
+                      <div class="collection-tabs__card">
+                        <a {% if card_link != blank %}href="{{ card_link }}"{% else %}role="link" aria-disabled="true"{% endif %} class="collection-tabs__card-link">
+                          <div class="collection-tabs__card-image-wrapper">
+                            {% if card_image != blank %}
+                              {{ card_image | image_url: width: 400 | image_tag: class: 'collection-tabs__card-image', loading: 'lazy' }}
+                            {% else %}
+                              {{ 'collection-1' | placeholder_svg_tag: 'collection-tabs__card-image placeholder-svg' }}
+                            {% endif %}
+                          </div>
+                          <h3 class="collection-tabs__card-title">{{ card_title }}</h3>
+                        </a>
+                      </div>
+                    </div>
+                    <!--@list/split-->
+                  {% endif %}
+                {% endfor %}
+              {% endcapture %}
+
+              {% assign tab_slides_arr = tab_slides | strip | split: '<!--@list/split-->' %}
+              
+              {%- capture clean_slides_captured -%}
+                {%- for slide in tab_slides_arr -%}
+                  {%- assign slide_stripped = slide | strip -%}
+                  {%- if slide_stripped != blank -%}
+                    {{- slide_stripped -}}
+                    {%- unless forloop.last -%}<!--@clean_split-->{%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+              
+              {%- assign clean_slides_arr = clean_slides_captured | strip | split: '<!--@clean_split-->' -%}
+              {%- assign slide_count = clean_slides_arr.size -%}
+
+              {% if slide_count > 0 %}
+                {% assign list_items = clean_slides_captured | replace: '<!--@clean_split-->', '<!--@list/split-->' %}
+                {% render 'resource-list',
+                  list_items: list_items,
+                  list_items_array: clean_slides_arr,
+                  settings: section.settings,
+                  carousel_ref: block.id,
+                  slide_count: slide_count,
+                  content_type: 'collections'
+                %}
+              {% else %}
+                <p class="collection-tabs__empty-msg">No collections added to this tab. Please customize in the theme editor.</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -151,14 +142,16 @@
   .collection-tabs__header {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-bottom: 32px;
     padding-inline: var(--padding-md);
   }
 
   .collection-tabs__tab-btn {
-    flex: 1 1 50%;
-    max-width: 400px;
+    flex: 1 1 auto;
+    min-width: 150px;
+    max-width: 300px;
     padding: 12px 24px;
     font-size: 0.875rem;
     font-weight: 700;
@@ -350,29 +343,8 @@
   "disabled_on": {
     "groups": ["header", "footer"]
   },
+  "max_blocks": 5,
   "settings": [
-    {
-      "type": "text",
-      "id": "tab_1_title",
-      "label": "Tab 1 Title",
-      "default": "Shop by Collection"
-    },
-    {
-      "type": "collection_list",
-      "id": "tab_1_collections",
-      "label": "Tab 1 Collections"
-    },
-    {
-      "type": "text",
-      "id": "tab_2_title",
-      "label": "Tab 2 Title",
-      "default": "Shop by Women"
-    },
-    {
-      "type": "collection_list",
-      "id": "tab_2_collections",
-      "label": "Tab 2 Collections"
-    },
     {
       "type": "select",
       "id": "layout_type",
@@ -523,9 +495,229 @@
       "default": 48
     }
   ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab Title",
+          "default": "Tab Title"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 1"
+        },
+        {
+          "type": "collection",
+          "id": "collection_1",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_1",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 2"
+        },
+        {
+          "type": "collection",
+          "id": "collection_2",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_2",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 3"
+        },
+        {
+          "type": "collection",
+          "id": "collection_3",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_3",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_3",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 4"
+        },
+        {
+          "type": "collection",
+          "id": "collection_4",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_4",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_4",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 5"
+        },
+        {
+          "type": "collection",
+          "id": "collection_5",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_5",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_5",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 6"
+        },
+        {
+          "type": "collection",
+          "id": "collection_6",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_6",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_6",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_6",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 7"
+        },
+        {
+          "type": "collection",
+          "id": "collection_7",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_7",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_7",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_7",
+          "label": "Custom Link Override"
+        },
+        {
+          "type": "header",
+          "content": "Collection Card 8"
+        },
+        {
+          "type": "collection",
+          "id": "collection_8",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_8",
+          "label": "Custom Image Override"
+        },
+        {
+          "type": "text",
+          "id": "title_8",
+          "label": "Custom Title Override"
+        },
+        {
+          "type": "url",
+          "id": "link_8",
+          "label": "Custom Link Override"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Collection Tabs"
+      "name": "Collection Tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Collection"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Women"
+          }
+        }
+      ]
     }
   ]
 }
