@@ -1,0 +1,532 @@
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  class="collection-tabs section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  id="CollectionTabs-{{ section.id }}"
+>
+  <div
+    class="
+      section
+      section--{{ section.settings.section_width }}
+      {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+      spacing-style
+    "
+    style="
+      {% render 'spacing-style', settings: section.settings %}
+    "
+  >
+    <!-- Tab navigation buttons -->
+    <div class="collection-tabs__header">
+      <button type="button" class="collection-tabs__tab-btn active" data-tab="tab-1-{{ section.id }}">
+        {{ section.settings.tab_1_title | default: 'Shop by Collection' }}
+      </button>
+      <button type="button" class="collection-tabs__tab-btn" data-tab="tab-2-{{ section.id }}">
+        {{ section.settings.tab_2_title | default: 'Shop by Women' }}
+      </button>
+    </div>
+
+    <div class="collection-tabs__body">
+      <!-- Left side: dynamic title and SVG curve arrow -->
+      <div class="collection-tabs__left">
+        <h2 class="collection-tabs__title collection-tabs__title--tab-1-{{ section.id }} active">
+          {{ section.settings.tab_1_title | default: 'Shop by Collection' }}
+        </h2>
+        <h2 class="collection-tabs__title collection-tabs__title--tab-2-{{ section.id }}">
+          {{ section.settings.tab_2_title | default: 'Shop by Women' }}
+        </h2>
+        <div class="collection-tabs__arrow">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none" style="stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;">
+            <path d="M10 10 C 10 30, 25 35, 40 35" />
+            <path d="M32 27 L 42 35 L 32 43" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right side: Carousels -->
+      <div class="collection-tabs__right">
+        
+        <!-- Tab 1 Slider -->
+        <div class="collection-tabs__content active" id="tab-1-{{ section.id }}-content">
+          {%- liquid
+            assign tab_1_collections = section.settings.tab_1_collections
+            assign tab_1_count = tab_1_collections.count
+          -%}
+          {% if tab_1_collections != blank %}
+            {% capture tab_1_slides %}
+              {% for collection in tab_1_collections %}
+                <div class="resource-list__item">
+                  <div class="collection-tabs__card">
+                    <a href="{{ collection.url }}" class="collection-tabs__card-link">
+                      <div class="collection-tabs__card-image-wrapper">
+                        {% if collection.featured_image != blank %}
+                          {{ collection.featured_image | image_url: width: 400 | image_tag: class: 'collection-tabs__card-image', loading: 'lazy' }}
+                        {% else %}
+                          {{ 'collection-1' | placeholder_svg_tag: 'collection-tabs__card-image placeholder-svg' }}
+                        {% endif %}
+                      </div>
+                      <h3 class="collection-tabs__card-title">{{ collection.title }}</h3>
+                    </a>
+                  </div>
+                </div>
+                {% unless forloop.last %}
+                  <!--@list/split-->
+                {% endunless %}
+              {% endfor %}
+            {% endcapture %}
+            
+            {% assign tab_1_slides_arr = tab_1_slides | strip | split: '<!--@list/split-->' %}
+            
+            {% render 'resource-list',
+              list_items: tab_1_slides,
+              list_items_array: tab_1_slides_arr,
+              settings: section.settings,
+              carousel_ref: 'tab1Carousel',
+              slide_count: tab_1_count,
+              content_type: 'collections'
+            %}
+          {% else %}
+            <p class="collection-tabs__empty-msg">No collections selected for Tab 1.</p>
+          {% endif %}
+        </div>
+
+        <!-- Tab 2 Slider -->
+        <div class="collection-tabs__content" id="tab-2-{{ section.id }}-content">
+          {%- liquid
+            assign tab_2_collections = section.settings.tab_2_collections
+            assign tab_2_count = tab_2_collections.count
+          -%}
+          {% if tab_2_collections != blank %}
+            {% capture tab_2_slides %}
+              {% for collection in tab_2_collections %}
+                <div class="resource-list__item">
+                  <div class="collection-tabs__card">
+                    <a href="{{ collection.url }}" class="collection-tabs__card-link">
+                      <div class="collection-tabs__card-image-wrapper">
+                        {% if collection.featured_image != blank %}
+                          {{ collection.featured_image | image_url: width: 400 | image_tag: class: 'collection-tabs__card-image', loading: 'lazy' }}
+                        {% else %}
+                          {{ 'collection-2' | placeholder_svg_tag: 'collection-tabs__card-image placeholder-svg' }}
+                        {% endif %}
+                      </div>
+                      <h3 class="collection-tabs__card-title">{{ collection.title }}</h3>
+                    </a>
+                  </div>
+                </div>
+                {% unless forloop.last %}
+                  <!--@list/split-->
+                {% endunless %}
+              {% endfor %}
+            {% endcapture %}
+            
+            {% assign tab_2_slides_arr = tab_2_slides | strip | split: '<!--@list/split-->' %}
+            
+            {% render 'resource-list',
+              list_items: tab_2_slides,
+              list_items_array: tab_2_slides_arr,
+              settings: section.settings,
+              carousel_ref: 'tab2Carousel',
+              slide_count: tab_2_count,
+              content_type: 'collections'
+            %}
+          {% else %}
+            <p class="collection-tabs__empty-msg">No collections selected for Tab 2.</p>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .collection-tabs {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .collection-tabs__header {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-inline: var(--padding-md);
+  }
+
+  .collection-tabs__tab-btn {
+    flex: 1 1 50%;
+    max-width: 400px;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 100px;
+    border: 1.5px solid #641B16;
+    background-color: transparent;
+    color: #641B16;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .collection-tabs__tab-btn.active {
+    background-color: #641B16;
+    color: #ffffff;
+  }
+
+  .collection-tabs__tab-btn:hover:not(.active) {
+    background-color: rgb(100 27 22 / 5%);
+  }
+
+  .collection-tabs__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .collection-tabs__body {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      align-items: center;
+      gap: 32px;
+    }
+  }
+
+  .collection-tabs__left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-inline: var(--padding-md);
+  }
+
+  @media screen and (min-width: 750px) {
+    .collection-tabs__left {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .collection-tabs__title {
+    display: none;
+    font-family: var(--font-subheading--family), Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2.25rem;
+    line-height: 1.2;
+    color: #641B16;
+    margin: 0 0 12px 0;
+  }
+
+  .collection-tabs__title.active {
+    display: block;
+  }
+
+  .collection-tabs__arrow {
+    color: #641B16;
+    margin-top: 8px;
+    transform: rotate(0deg);
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-tabs__arrow {
+      transform: rotate(90deg);
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+  }
+
+  .collection-tabs__right {
+    min-width: 0;
+    position: relative;
+  }
+
+  .collection-tabs__content {
+    display: none;
+  }
+
+  .collection-tabs__content.active {
+    display: block;
+  }
+
+  /* Collection card customizations */
+  .collection-tabs__card {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+
+  .collection-tabs__card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .collection-tabs__card-image-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(0 0 0 / 3%);
+  }
+
+  .collection-tabs__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .collection-tabs__card:hover .collection-tabs__card-image {
+    transform: scale(1.05);
+  }
+
+  .collection-tabs__card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #641B16;
+    margin: 0;
+  }
+
+  .collection-tabs__empty-msg {
+    color: #641B16;
+    font-style: italic;
+    padding-inline: var(--padding-md);
+  }
+{% endstylesheet %}
+
+<script>
+  (function() {
+    function initCollectionTabs(section) {
+      const tabs = section.querySelectorAll('.collection-tabs__tab-btn');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.getAttribute('data-tab');
+          
+          tabs.forEach(btn => btn.classList.remove('active'));
+          tab.classList.add('active');
+
+          section.querySelectorAll('.collection-tabs__title').forEach(title => {
+            title.classList.remove('active');
+          });
+          const activeTitle = section.querySelector(`.collection-tabs__title--${targetTab}`);
+          if (activeTitle) activeTitle.classList.add('active');
+
+          section.querySelectorAll('.collection-tabs__content').forEach(content => {
+            content.classList.remove('active');
+          });
+          const activeContent = section.querySelector(`#${targetTab}-content`);
+          if (activeContent) activeContent.classList.add('active');
+
+          // Trigger slideshow scroller layout update
+          window.dispatchEvent(new Event('resize'));
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.collection-tabs').forEach(initCollectionTabs);
+    });
+
+    document.addEventListener('shopify:section:load', (event) => {
+      const section = event.target.querySelector('.collection-tabs');
+      if (section) {
+        initCollectionTabs(section);
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Tabs",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "tab_1_title",
+      "label": "Tab 1 Title",
+      "default": "Shop by Collection"
+    },
+    {
+      "type": "collection_list",
+      "id": "tab_1_collections",
+      "label": "Tab 1 Collections"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_title",
+      "label": "Tab 2 Title",
+      "default": "Shop by Women"
+    },
+    {
+      "type": "collection_list",
+      "id": "tab_2_collections",
+      "label": "Tab 2 Collections"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap",
+      "label": "Gap between cards",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FAF8F6"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.navigation"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "Arrow Icon style",
+      "options": [
+        {
+          "value": "arrow",
+          "label": "Arrows"
+        },
+        {
+          "value": "chevron",
+          "label": "Chevrons"
+        },
+        {
+          "value": "arrows_large",
+          "label": "Large Arrows"
+        },
+        {
+          "value": "chevron_large",
+          "label": "Large Chevrons"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "arrow"
+    },
+    {
+      "type": "select",
+      "id": "icons_shape",
+      "label": "Arrow Icon Background shape",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "circle",
+          "label": "Circle"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tabs"
+    }
+  ]
+}
+{% endschema %}

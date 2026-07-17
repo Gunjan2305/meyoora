@@ -295,10 +295,30 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "collection_tabs_custom": {
+      "type": "collection-tabs",
+      "settings": {
+        "tab_1_title": "Shop by Collection",
+        "tab_1_collections": [
+          "all"
+        ],
+        "tab_2_title": "Shop by Women",
+        "tab_2_collections": [
+          "all"
+        ],
+        "background_color": "#FAF8F6",
+        "section_width": "page-width",
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
+    "collection_tabs_custom",
     "product_list_fa6P9H"
   ]
 }
