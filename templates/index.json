@@ -185,6 +185,7 @@
         "feature_craftsmanship": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/craiyon_150647_image.webp",
             "icon_preset": "needle",
             "title": "Craftsmanship",
             "description": "Built with intention, every detail is carefully considered and precisely finished."
@@ -193,6 +194,7 @@
         "feature_made_to_order": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/craiyon_151311_image.webp",
             "icon_preset": "mannequin",
             "title": "Made to Order",
             "description": "Each piece is created only when you choose it — reducing waste, increasing meaning."
@@ -201,6 +203,7 @@
         "feature_fabrics": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/craiyon_150433_image.webp",
             "icon_preset": "fabrics",
             "title": "Fabrics",
             "description": "We work with thoughtfully selected fabrics that feel as good as they look."
@@ -209,6 +212,7 @@
         "feature_stylish_yet": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/craiyon_150922_image.webp",
             "icon_preset": "dress",
             "title": "Stylish Yet",
             "description": "Designed to stand out effortlessly, without ever trying too hard."
