@@ -1,0 +1,357 @@
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  class="custom-footer"
+  id="CustomFooter-{{ section.id }}"
+>
+  <div
+    class="
+      section
+      section--{{ section.settings.section_width }}
+      spacing-style
+    "
+    style="
+      {% render 'spacing-style', settings: section.settings %}
+    "
+  >
+    <div
+      class="custom-footer__wrapper color-custom-{{ section.id }}"
+      style="
+        background-color: {{ section.settings.background_color }};
+        color: {{ section.settings.text_color }};
+        border-radius: {{ section.settings.border_radius }}px;
+      "
+    >
+      <div class="custom-footer__top">
+        <div class="custom-footer__brand">
+          {% if section.settings.logo_image != blank %}
+            {{ section.settings.logo_image | image_url: width: 400 | image_tag: class: 'custom-footer__logo-img', style: 'max-width: ' | append: section.settings.logo_width | append: 'px;', loading: 'lazy' }}
+          {% else %}
+            <div class="custom-footer__logo-text">
+              <span class="custom-footer__logo-primary">{{ section.settings.logo_text_1 }}</span>
+              {% if section.settings.logo_text_2 != blank %}
+                <span class="custom-footer__logo-secondary">{{ section.settings.logo_text_2 }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="custom-footer__nav">
+          {% if section.settings.menu_1 != blank %}
+            <ul class="custom-footer__menu custom-footer__menu--primary">
+              {% for link in linklists[section.settings.menu_1].links %}
+                <li>
+                  <a href="{{ link.url }}" style="color: {{ section.settings.text_color }};">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if section.settings.menu_2 != blank %}
+            <ul class="custom-footer__menu custom-footer__menu--secondary">
+              {% for link in linklists[section.settings.menu_2].links %}
+                <li>
+                  <a href="{{ link.url }}" style="color: {{ section.settings.text_color }};">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+
+      <hr class="custom-footer__divider" style="border-color: {{ section.settings.text_color }};">
+
+      <div class="custom-footer__bottom">
+        <div class="custom-footer__copyright">
+          {% if section.settings.copyright_text != blank %}
+            {{ section.settings.copyright_text }}
+          {% else %}
+            &copy; {{ 'now' | date: '%Y' }} {{ shop.name }} - All rights reserved.
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&display=swap');
+
+  .custom-footer {
+    width: 100%;
+    background: #FAF8F6;
+  }
+
+  .custom-footer__wrapper {
+    width: 100%;
+    padding: 22px 26px;
+    box-sizing: border-box;
+  }
+
+  .custom-footer__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .custom-footer__brand {
+    flex-shrink: 0;
+  }
+
+  .custom-footer__logo-img {
+    height: auto;
+    display: block;
+  }
+
+  .custom-footer__logo-text {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    line-height: 0.9;
+  }
+
+  .custom-footer__logo-primary {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .custom-footer__logo-secondary {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    position: absolute;
+    bottom: -22px;
+    left: 45px;
+    transform: rotate(-5deg);
+    white-space: nowrap;
+  }
+
+  .custom-footer__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 60px;
+  }
+
+  .custom-footer__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .custom-footer__menu a {
+    text-decoration: none;
+    font-size: 12px;
+    transition: opacity 0.2s ease;
+  }
+
+  .custom-footer__menu a:hover {
+    opacity: 0.8;
+  }
+
+  .custom-footer__menu--primary a {
+    font-weight: 500;
+  }
+
+  .custom-footer__menu--secondary a {
+    font-size: 11px;
+    opacity: 0.9;
+  }
+
+  .custom-footer__divider {
+    border: 0;
+    border-top: 1px solid;
+    margin: 32px 0 14px 0;
+    opacity: 0.15;
+  }
+
+  .custom-footer__bottom {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 11px;
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-footer__wrapper {
+      padding: 20px;
+    }
+
+    .custom-footer__top {
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      text-align: center;
+    }
+
+    .custom-footer__logo-text {
+      align-items: center;
+    }
+
+    .custom-footer__logo-secondary {
+      position: static;
+      margin-top: 5px;
+      transform: none;
+      display: block;
+      text-align: center;
+    }
+
+    .custom-footer__nav {
+      align-items: center;
+      gap: 20px;
+    }
+
+    .custom-footer__menu {
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .custom-footer__bottom {
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Premium Footer",
+  "tag": "footer",
+  "class": "custom-footer-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#641B16"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Container Border Radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Logo / Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width (Image)",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    },
+    {
+      "type": "text",
+      "id": "logo_text_1",
+      "label": "Branding Text Primary",
+      "default": "Meyoora"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_2",
+      "label": "Branding Text Script",
+      "default": "at eight"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Primary Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Secondary Menu (Policies)",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text Override",
+      "info": "Leave blank to use default shop copyright notice."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Premium Footer"
+    }
+  ]
+}
+{% endschema %}
