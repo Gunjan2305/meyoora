@@ -96,9 +96,92 @@
         "padding-block-start": 72,
         "padding-block-end": 72
       }
+    },
+    "collection_tabs_QyaQxH": {
+      "type": "collection-tabs",
+      "blocks": {
+        "tab_NiEqdG": {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Collection",
+            "collection_1": "shop-by-collection",
+            "title_1": "",
+            "link_1": "",
+            "collection_2": "",
+            "title_2": "",
+            "link_2": "",
+            "collection_3": "",
+            "title_3": "",
+            "link_3": "",
+            "collection_4": "",
+            "title_4": "",
+            "link_4": "",
+            "collection_5": "",
+            "title_5": "",
+            "link_5": "",
+            "collection_6": "",
+            "title_6": "",
+            "link_6": "",
+            "collection_7": "",
+            "title_7": "",
+            "link_7": "",
+            "collection_8": "",
+            "title_8": "",
+            "link_8": ""
+          }
+        },
+        "tab_DErRrA": {
+          "type": "tab",
+          "settings": {
+            "title": "Shop by Women",
+            "collection_1": "",
+            "title_1": "",
+            "link_1": "",
+            "collection_2": "",
+            "title_2": "",
+            "link_2": "",
+            "collection_3": "",
+            "title_3": "",
+            "link_3": "",
+            "collection_4": "",
+            "title_4": "",
+            "link_4": "",
+            "collection_5": "",
+            "title_5": "",
+            "link_5": "",
+            "collection_6": "",
+            "title_6": "",
+            "link_6": "",
+            "collection_7": "",
+            "title_7": "",
+            "link_7": "",
+            "collection_8": "",
+            "title_8": "",
+            "link_8": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_NiEqdG",
+        "tab_DErRrA"
+      ],
+      "name": "Collection Tabs",
+      "settings": {
+        "layout_type": "carousel",
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 16,
+        "background_color": "#FAF8F6",
+        "section_width": "page-width",
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
-    "hero_jVaWmY"
+    "hero_jVaWmY",
+    "collection_tabs_QyaQxH"
   ]
 }
