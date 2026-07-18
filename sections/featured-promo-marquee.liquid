@@ -1,0 +1,572 @@
+{%- liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+-%}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+
+<div
+  class="promo-marquee{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  id="PromoMarquee-{{ section.id }}"
+  style="--padding-block-start: {{ section.settings.padding_top }}px; --padding-block-end: {{ section.settings.padding_bottom }}px;"
+>
+  <div
+    class="
+      section
+      section--{{ section.settings.section_width }}
+      {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %}
+      spacing-style
+    "
+  >
+    {% if section.settings.heading != blank %}
+      {%- liquid
+        assign heading_text = section.settings.heading
+        if heading_text contains '[' and heading_text contains ']'
+          assign parts = heading_text | split: '['
+          assign first_part = parts[0]
+          assign rest = parts[1] | split: ']'
+          assign cursive_part = rest[0]
+          assign last_part = rest[1]
+          capture formatted_heading
+            echo '<span class="promo-marquee__heading-primary" style="color: ' | append: section.settings.heading_color_1 | append: ';">' | append: first_part | append: '</span>'
+            echo '<span class="promo-marquee__heading-cursive" style="color: ' | append: section.settings.heading_color_2 | append: ';">' | append: cursive_part | append: '</span>'
+            echo '<span class="promo-marquee__heading-primary" style="color: ' | append: section.settings.heading_color_1 | append: ';">' | append: last_part | append: '</span>'
+          endcapture
+        else
+          capture formatted_heading
+            echo '<span class="promo-marquee__heading-primary" style="color: ' | append: section.settings.heading_color_1 | append: ';">' | append: heading_text | append: '</span>'
+          endcapture
+        endif
+      -%}
+      <h2 class="promo-marquee__heading">
+        {{ formatted_heading }}
+      </h2>
+    {% endif %}
+
+    <!-- Promo Grid -->
+    <div class="promo-marquee__grid">
+      <!-- Left Card (Image Card) -->
+      {% if section.settings.left_card_link != blank %}
+        <a href="{{ section.settings.left_card_link }}" class="promo-marquee__card promo-marquee__card--image" style="border-radius: {{ section.settings.card_border_radius }}px;">
+      {% else %}
+        <div class="promo-marquee__card promo-marquee__card--image" style="border-radius: {{ section.settings.card_border_radius }}px;">
+      {% endif %}
+        
+        {% if section.settings.left_card_image != blank %}
+          {{ section.settings.left_card_image | image_url: width: 1200 | image_tag: class: 'promo-marquee__card-img', loading: 'lazy' }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'promo-marquee__placeholder' }}
+        {% endif %}
+
+      {% if section.settings.left_card_link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+
+      <!-- Right Card (Text Card) -->
+      {% if section.settings.right_card_link != blank %}
+        <a href="{{ section.settings.right_card_link }}" class="promo-marquee__card promo-marquee__card--text" style="background-color: {{ section.settings.right_card_bg_color }}; border-radius: {{ section.settings.card_border_radius }}px; color: {{ section.settings.right_card_text_color }};">
+      {% else %}
+        <div class="promo-marquee__card promo-marquee__card--text" style="background-color: {{ section.settings.right_card_bg_color }}; border-radius: {{ section.settings.card_border_radius }}px; color: {{ section.settings.right_card_text_color }};">
+      {% endif %}
+        
+        <div class="promo-marquee__card-content">
+          {% if section.settings.right_card_description != blank %}
+            <p class="promo-marquee__card-desc" style="color: {{ section.settings.right_card_text_color }};">
+              {{ section.settings.right_card_description }}
+            </p>
+          {% endif %}
+          
+          <div class="promo-marquee__card-bottom">
+            <div class="promo-marquee__card-action-row">
+              {% if section.settings.right_card_btn_text != blank %}
+                <span class="promo-marquee__card-link-text" style="color: {{ section.settings.right_card_btn_color }};">
+                  {{ section.settings.right_card_btn_text }}
+                </span>
+              {% endif %}
+
+              <div class="promo-marquee__card-arrow" style="border-color: {{ section.settings.right_card_btn_color }}; color: {{ section.settings.right_card_btn_color }};">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% if section.settings.right_card_link != blank %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Bottom Scrolling Ticker Marquee -->
+  {% if section.settings.ticker_text != blank %}
+    <div 
+      class="promo-marquee__ticker" 
+      style="background-color: {{ section.settings.ticker_bg_color }}; color: {{ section.settings.ticker_text_color }}; margin-top: {{ section.settings.ticker_margin_top }}px;"
+    >
+      <div 
+        class="promo-marquee__ticker-track" 
+        style="animation-duration: {{ section.settings.ticker_speed }}s; animation-direction: {{ section.settings.ticker_direction }};"
+      >
+        <!-- Group 1 -->
+        <div class="promo-marquee__ticker-group">
+          {% for i in (1..8) %}
+            <span class="promo-marquee__ticker-item">
+              {{ section.settings.ticker_text }}
+              {% if section.settings.ticker_separator != blank %}
+                <span class="promo-marquee__ticker-sep">{{ section.settings.ticker_separator }}</span>
+              {% endif %}
+            </span>
+          {% endfor %}
+        </div>
+        <!-- Group 2 for seamless wrap -->
+        <div class="promo-marquee__ticker-group" aria-hidden="true">
+          {% for i in (1..8) %}
+            <span class="promo-marquee__ticker-item">
+              {{ section.settings.ticker_text }}
+              {% if section.settings.ticker_separator != blank %}
+                <span class="promo-marquee__ticker-sep">{{ section.settings.ticker_separator }}</span>
+              {% endif %}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&display=swap');
+
+  .promo-marquee {
+    width: 100%;
+    padding-top: var(--padding-block-start);
+    padding-bottom: var(--padding-block-end);
+    overflow: hidden;
+  }
+
+  .promo-marquee__heading {
+    text-align: center;
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin: 0 auto 36px auto;
+    max-width: 800px;
+    font-weight: 500;
+  }
+
+  .promo-marquee__heading-primary {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .promo-marquee__heading-cursive {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -8px;
+    padding-inline: 8px;
+  }
+
+  .promo-marquee__grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .promo-marquee__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .promo-marquee__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .promo-marquee__heading {
+      font-size: 1.75rem;
+      margin-bottom: 24px;
+    }
+    .promo-marquee__heading-cursive {
+      font-size: 2.25rem;
+    }
+  }
+
+  .promo-marquee__card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    text-decoration: none;
+  }
+
+  .promo-marquee__card--image {
+    aspect-ratio: 16/10;
+  }
+
+  @media screen and (max-width: 749px) {
+    .promo-marquee__card--image {
+      aspect-ratio: 4/3;
+    }
+  }
+
+  .promo-marquee__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .promo-marquee__card--image:hover .promo-marquee__card-img {
+    transform: scale(1.03);
+  }
+
+  .promo-marquee__placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    fill: #dfdfdf;
+  }
+
+  .promo-marquee__card--text {
+    padding: 40px;
+    box-sizing: border-box;
+    align-items: stretch;
+  }
+
+  @media screen and (max-width: 989px) {
+    .promo-marquee__card--text {
+      padding: 30px;
+    }
+  }
+
+  .promo-marquee__card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+
+  .promo-marquee__card-desc {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.45rem;
+    line-height: 1.45;
+    font-weight: 400;
+    margin: 0 0 30px 0;
+  }
+
+  @media screen and (max-width: 1190px) {
+    .promo-marquee__card-desc {
+      font-size: 1.25rem;
+    }
+  }
+
+  .promo-marquee__card-bottom {
+    margin-top: auto;
+  }
+
+  .promo-marquee__card-action-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .promo-marquee__card-link-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+  }
+
+  .promo-marquee__card-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .promo-marquee__card--text:hover .promo-marquee__card-arrow {
+    transform: rotate(45deg);
+  }
+
+  .promo-marquee__card-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Ticker styles */
+  .promo-marquee__ticker {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+    display: flex;
+    user-select: none;
+  }
+
+  .promo-marquee__ticker-track {
+    display: flex;
+    width: max-content;
+    animation: promoTickerScroll linear infinite;
+  }
+
+  .promo-marquee__ticker-track:hover {
+    animation-play-state: paused;
+  }
+
+  .promo-marquee__ticker-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .promo-marquee__ticker-item {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-inline-start: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .promo-marquee__ticker-sep {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  @keyframes promoTickerScroll {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Split Promo & Marquee",
+  "tag": "section",
+  "class": "split-promo-marquee-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FAF8F6"
+    },
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop our [Newest Collection]",
+      "info": "Use brackets [like this] to style words in elegant script font."
+    },
+    {
+      "type": "color",
+      "id": "heading_color_1",
+      "label": "Primary Heading Color",
+      "default": "#2E4E24"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_2",
+      "label": "Cursive Heading Color",
+      "default": "#E08B9B"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Left Image Card Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_card_image",
+      "label": "Left Card Image"
+    },
+    {
+      "type": "url",
+      "id": "left_card_link",
+      "label": "Left Card Link"
+    },
+    {
+      "type": "header",
+      "content": "Right Text Card Settings"
+    },
+    {
+      "type": "color",
+      "id": "right_card_bg_color",
+      "label": "Card Background Color",
+      "default": "#2E4E24"
+    },
+    {
+      "type": "color",
+      "id": "right_card_text_color",
+      "label": "Card Text Color",
+      "default": "#E08B9B"
+    },
+    {
+      "type": "textarea",
+      "id": "right_card_description",
+      "label": "Card Description",
+      "default": "Inspired by the playful, vibrant energy of fruits, our outfits are designed to feel joyful, fresh, light, and full of personality."
+    },
+    {
+      "type": "text",
+      "id": "right_card_btn_text",
+      "label": "Card Link Text",
+      "default": "SHOP COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "right_card_link",
+      "label": "Card Link"
+    },
+    {
+      "type": "color",
+      "id": "right_card_btn_color",
+      "label": "Card Action Elements Color",
+      "default": "#D08E3B"
+    },
+    {
+      "type": "header",
+      "content": "Scrolling Ticker Settings"
+    },
+    {
+      "type": "text",
+      "id": "ticker_text",
+      "label": "Ticker Text",
+      "default": "SHOP OUR NEW COLLECTION NOW"
+    },
+    {
+      "type": "text",
+      "id": "ticker_separator",
+      "label": "Ticker Separator Character",
+      "default": "♣"
+    },
+    {
+      "type": "color",
+      "id": "ticker_bg_color",
+      "label": "Ticker Background Color",
+      "default": "#D08E3B"
+    },
+    {
+      "type": "color",
+      "id": "ticker_text_color",
+      "label": "Ticker Text Color",
+      "default": "#2E4E24"
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "label": "Ticker Speed (Seconds)",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "ticker_direction",
+      "label": "Ticker Direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Right to Left"
+        },
+        {
+          "value": "reverse",
+          "label": "Left to Right"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "ticker_margin_top",
+      "label": "Ticker Top Margin",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Promo & Marquee"
+    }
+  ]
+}
+{% endschema %}
