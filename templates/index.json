@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_jVaWmY": {
@@ -162,7 +171,7 @@
         "columns": 4,
         "mobile_columns": "2",
         "columns_gap": 16,
-        "background_color": "#FAF8F6",
+        "background_color": "#faf8f6",
         "section_width": "page-width",
         "icons_style": "arrow",
         "icons_shape": "circle",
@@ -214,9 +223,9 @@
       ],
       "settings": {
         "section_width": "page-width",
-        "background_color": "#FAF8F6",
-        "text_color": "#1C1B1B",
-        "accent_color": "#D06927",
+        "background_color": "#faf8f6",
+        "text_color": "#1c1b1b",
+        "accent_color": "#641B16",
         "heading": "More than clothing - [a reflection] of how you choose to show up",
         "padding-block-start": 36,
         "padding-block-end": 36
