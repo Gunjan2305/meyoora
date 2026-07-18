@@ -5,7 +5,11 @@
 %}
 
 <div
-  class="collection-tabs section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+
+<div
+  class="collection-tabs{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
   id="CollectionTabs-{{ section.id }}"
 >
   <div
@@ -149,15 +153,14 @@
   }
 
   .collection-tabs__tab-btn {
-    flex: 1 1 auto;
+    flex: 1 1 0%;
     min-width: 150px;
-    max-width: 300px;
     padding: 12px 24px;
     font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border-radius: 100px;
+    border-radius: 14px;
     border: 1.5px solid #641B16;
     background-color: transparent;
     color: #641B16;

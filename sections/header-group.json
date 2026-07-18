@@ -93,11 +93,7 @@
           "settings": {
             "menu": "main-menu",
             "background_color": "#FAF8F6",
-<<<<<<< HEAD
-            "text_color": "#1C1B1B",
-=======
             "text_color": "#641B16",
->>>>>>> 42a015bd4b1f2bea27a5ff86ec22b0389215cbbd
             "type_font_primary_size": "0.875rem",
             "menu_font_style": "inverse",
             "type_font_primary_link": "body",
