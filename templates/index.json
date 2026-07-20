@@ -322,7 +322,7 @@
         "background_color": "#faf8f6",
         "icon_width": 50,
         "gap": 15,
-        "speed": 20,
+        "speed": 14,
         "direction": "normal",
         "padding_top": 24,
         "padding_bottom": 24
