@@ -562,15 +562,6 @@
     "instagram_video_popup_L5jKds": {
       "type": "instagram-video-popup",
       "blocks": {
-        "post_1": {
-          "type": "instagram_block",
-          "settings": {
-            "image": "shopify://shop_images/IMG_9869.png",
-            "likes": "62",
-            "comments": "0",
-            "product": ""
-          }
-        },
         "post_2": {
           "type": "instagram_block",
           "settings": {
@@ -580,11 +571,11 @@
             "product": ""
           }
         },
-        "instagram_block_XPWG8b": {
+        "post_1": {
           "type": "instagram_block",
           "settings": {
-            "image": "shopify://shop_images/IMG_9598.png",
-            "likes": "64",
+            "image": "shopify://shop_images/IMG_9869.png",
+            "likes": "62",
             "comments": "0",
             "product": ""
           }
@@ -598,12 +589,12 @@
             "product": ""
           }
         },
-        "post_4": {
+        "instagram_block_XPWG8b": {
           "type": "instagram_block",
           "settings": {
-            "image": "shopify://shop_images/IMG_9230.png",
-            "likes": "84",
-            "comments": "1",
+            "image": "shopify://shop_images/IMG_9598.png",
+            "likes": "64",
+            "comments": "0",
             "product": ""
           }
         },
@@ -615,15 +606,24 @@
             "comments": "8",
             "product": ""
           }
+        },
+        "post_4": {
+          "type": "instagram_block",
+          "settings": {
+            "image": "shopify://shop_images/IMG_9230.png",
+            "likes": "84",
+            "comments": "1",
+            "product": ""
+          }
         }
       },
       "block_order": [
-        "post_1",
         "post_2",
-        "instagram_block_XPWG8b",
+        "post_1",
         "post_3",
-        "post_4",
-        "post_5"
+        "instagram_block_XPWG8b",
+        "post_5",
+        "post_4"
       ],
       "settings": {
         "section_width": "page-width",
