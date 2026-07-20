@@ -213,36 +213,42 @@
         "icon_1": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/berries_11zon.png",
             "link": ""
           }
         },
         "icon_2": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/pineapple_11zon.webp",
             "link": ""
           }
         },
         "icon_3": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/umbrella_11zon.png",
             "link": ""
           }
         },
         "icon_4": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/strawberry_11zon.png",
             "link": ""
           }
         },
         "icon_5": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/something_11zon.png",
             "link": ""
           }
         },
         "icon_6": {
           "type": "icon_block",
           "settings": {
+            "image": "shopify://shop_images/pineapple2.png",
             "link": ""
           }
         }
@@ -383,7 +389,7 @@
         "button_link": "",
         "button_bg_color": "#641b16",
         "button_text_color": "#ffffff",
-        "padding_top": 36,
+        "padding_top": 20,
         "padding_bottom": 20
       }
     }
