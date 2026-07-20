@@ -1,0 +1,523 @@
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  id="StyleMoods-{{ section.id }}"
+  class="style-moods-wrapper {% if section.settings.background_color != blank %}color-custom-{{ section.id }}{% endif %} spacing-style"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    {%- if section.settings.enable_custom_bg and section.settings.bg_gradient != blank -%}
+      --style-moods-bg: {{ section.settings.bg_gradient }};
+    {%- elsif section.settings.background_color != blank -%}
+      --style-moods-bg: {{ section.settings.background_color }};
+    {%- else -%}
+      --style-moods-bg: transparent;
+    {%- endif -%}
+    background: var(--style-moods-bg);
+  "
+>
+  <div class="style-moods__container section--{{ section.settings.section_width }}">
+    {%- if section.settings.heading_normal != blank or section.settings.heading_gradient != blank -%}
+      <h2 
+        class="style-moods__heading" 
+        style="
+          --heading-size-desktop: {{ section.settings.heading_size }}; 
+          --heading-normal-color: {{ section.settings.heading_color }};
+          --gradient-start: {{ section.settings.gradient_start }};
+          --gradient-end: {{ section.settings.gradient_end }};
+          --gradient-angle: {{ section.settings.gradient_angle }}deg;
+        "
+      >
+        {%- if section.settings.heading_normal != blank -%}
+          <span class="style-moods__heading-normal">{{ section.settings.heading_normal }} </span>
+        {%- endif -%}
+        {%- if section.settings.heading_gradient != blank -%}
+          <span class="style-moods__heading-gradient">{{ section.settings.heading_gradient }}</span>
+        {%- endif -%}
+      </h2>
+    {%- endif -%}
+
+    <div class="style-moods__blocks">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign product = block.settings.product
+          assign product_url = product.url | default: '#'
+          assign default_title = 'Mood ' | append: forloop.index
+          assign text = block.settings.custom_text | default: product.title | default: default_title
+        -%}
+        <a 
+          href="{{ product_url }}" 
+          class="style-moods__block" 
+          style="
+            --bg-color: {{ block.settings.bg_color }}; 
+            --text-color: {{ block.settings.text_color }};
+            --text-size: {{ block.settings.text_size }}px;
+            --img-scale: {{ block.settings.image_scale | divided_by: 100.0 }};
+            --img-offset-y: {{ block.settings.image_offset_y }}px;
+          "
+          {{ block.shopify_attributes }}
+        >
+          <div class="style-moods__block-bg"></div>
+
+          <div class="style-moods__block-text-wrapper">
+            <span class="style-moods__block-text">
+              {{ text }}
+            </span>
+          </div>
+
+          <div class="style-moods__image-container">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: 
+                class: 'style-moods__image', 
+                widths: '200, 300, 400, 600', 
+                sizes: '(min-width: 750px) 20vw, 50vw',
+                loading: 'lazy'
+              }}
+            {%- else -%}
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'style-moods__image style-moods__image-placeholder' }}
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  #StyleMoods-{{ section.id }} {
+    padding-top: var(--padding-block-start, 60px);
+    padding-bottom: var(--padding-block-end, 60px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .style-moods__container {
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .style-moods__heading {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 50px;
+    font-family: var(--font-heading--family), serif;
+    font-weight: var(--font-heading--weight, 400);
+    font-size: calc(var(--heading-size-desktop) * 1px);
+    line-height: 1.2;
+    letter-spacing: normal;
+  }
+
+  @media screen and (max-width: 749px) {
+    .style-moods__heading {
+      font-size: clamp(28px, 8vw, calc(var(--heading-size-desktop) * 0.75 * 1px));
+      margin-bottom: 30px;
+    }
+  }
+
+  .style-moods__heading-normal {
+    color: var(--heading-normal-color);
+  }
+
+  .style-moods__heading-gradient {
+    font-family: var(--font-heading--family), serif;
+    background: linear-gradient(
+      var(--gradient-angle),
+      var(--gradient-start),
+      var(--gradient-end)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    display: inline-block;
+    font-style: italic;
+  }
+
+  .style-moods__blocks {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .style-moods__block {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+    height: 460px;
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .style-moods__block-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+    z-index: 1;
+  }
+
+  .style-moods__block-text-wrapper {
+    position: absolute;
+    top: 24px;
+    right: 12px;
+    z-index: 2;
+    pointer-events: none;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    height: calc(100% - 48px);
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .style-moods__block-text {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    color: var(--text-color);
+    white-space: nowrap;
+    font-family: var(--font-body--family), sans-serif;
+    opacity: 0.95;
+  }
+
+  .style-moods__image-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 115%;
+    height: auto;
+    z-index: 3;
+    pointer-events: none;
+    transform: translate(-50%, var(--img-offset-y)) scale(var(--img-scale));
+    transform-origin: bottom center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .style-moods__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .style-moods__image-placeholder {
+    fill: rgba(0, 0, 0, 0.08);
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Hover transitions */
+  @media (hover: hover) {
+    .style-moods__block:hover {
+      transform: translateY(-8px);
+    }
+
+    .style-moods__block:hover .style-moods__block-bg {
+      filter: brightness(1.03);
+    }
+
+    .style-moods__block:hover .style-moods__image-container {
+      transform: translate(-50%, calc(var(--img-offset-y) - 15px)) scale(calc(var(--img-scale) * 1.05));
+    }
+  }
+
+  /* Mobile scrollable layout */
+  @media screen and (max-width: 749px) {
+    .style-moods__blocks {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding: 10px 20px 30px;
+      margin: 0 -20px;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+    }
+
+    .style-moods__blocks::-webkit-scrollbar {
+      display: none;
+    }
+
+    .style-moods__blocks {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .style-moods__block {
+      flex: 0 0 210px;
+      max-width: 210px;
+      height: 420px;
+      scroll-snap-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Style Moods",
+  "tag": "section",
+  "class": "style-moods-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_normal",
+      "label": "Heading Text (Normal)",
+      "default": "Style"
+    },
+    {
+      "type": "text",
+      "id": "heading_gradient",
+      "label": "Heading Text (Gradient)",
+      "default": "Moods"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Font Size (Desktop)",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Normal Text Color",
+      "default": "#566573"
+    },
+    {
+      "type": "header",
+      "content": "Gradient Settings"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Gradient Start Color",
+      "default": "#A0A6B2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Gradient End Color",
+      "default": "#8D6B94"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "label": "Gradient Angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_bg",
+      "label": "Enable Custom Section Background Style",
+      "default": true
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "default": "linear-gradient(90deg, #FAF8F5 0%, #F4EFF6 50%, #FAF0EC 100%)"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fallback Background Color",
+      "default": "#FAF8F6"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page Width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Spacing Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mood_block",
+      "name": "Mood Item",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Card Background Color",
+          "default": "#D2B9D4"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Cutout Product Image (PNG)"
+        },
+        {
+          "type": "text",
+          "id": "custom_text",
+          "label": "Custom Vertical Text",
+          "info": "Leave blank to default to product title."
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Vertical Text Color",
+          "default": "#E28D68"
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "label": "Vertical Text Font Size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "image_offset_y",
+          "label": "Overlay Image Vertical Offset",
+          "info": "Moves overlay image up (negative) or down (positive) relative to card base.",
+          "min": -100,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "image_scale",
+          "label": "Overlay Image Scale",
+          "min": 50,
+          "max": 150,
+          "step": 5,
+          "unit": "%",
+          "default": 100
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Style Moods",
+      "blocks": [
+        {
+          "type": "mood_block",
+          "settings": {
+            "bg_color": "#D2B9D4",
+            "text_color": "#E28D68",
+            "custom_text": "SUMMER SHELL SHIRT",
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        {
+          "type": "mood_block",
+          "settings": {
+            "bg_color": "#8198B1",
+            "text_color": "#ECC06C",
+            "custom_text": "LIMONCELLO CUTSY DRESS",
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        {
+          "type": "mood_block",
+          "settings": {
+            "bg_color": "#EFE8E1",
+            "text_color": "#CD9862",
+            "custom_text": "STARFISH SET",
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        {
+          "type": "mood_block",
+          "settings": {
+            "bg_color": "#EFCBC4",
+            "text_color": "#D47A6A",
+            "custom_text": "PINACOLADA MINI",
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        {
+          "type": "mood_block",
+          "settings": {
+            "bg_color": "#D2D5CE",
+            "text_color": "#3F92C3",
+            "custom_text": "CHIC VEST-SKORT SET",
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
