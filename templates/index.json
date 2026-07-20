@@ -105,9 +105,11 @@
           "settings": {
             "title": "Shop by Collection",
             "collection_1": "clothings",
+            "image_1": "shopify://shop_images/IMG_8695.png",
             "title_1": "",
             "link_1": "",
             "collection_2": "clutches",
+            "image_2": "shopify://shop_images/IMG_9896_JPG.jpg",
             "title_2": "",
             "link_2": "",
             "collection_3": "",
