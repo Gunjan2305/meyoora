@@ -93,7 +93,7 @@
         "reflection_opacity": 75,
         "layout": "boxed",
         "border_radius": 32,
-        "padding-block-start": 5,
+        "padding-block-start": 10,
         "padding-block-end": 72
       }
     },
