@@ -349,7 +349,7 @@
         "heading_gradient": "Moods",
         "heading_size": 64,
         "heading_color": "#641B16",
-        "gradient_start": "#a0a6b2",
+        "gradient_start": "#641B16",
         "gradient_end": "#8d6b94",
         "gradient_angle": 90,
         "enable_custom_bg": true,
