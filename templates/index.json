@@ -565,6 +565,7 @@
         "post_1": {
           "type": "instagram_block",
           "settings": {
+            "image": "shopify://shop_images/IMG_9869.png",
             "likes": "62",
             "comments": "0",
             "product": ""
@@ -573,14 +574,25 @@
         "post_2": {
           "type": "instagram_block",
           "settings": {
+            "image": "shopify://shop_images/IMG_8695.png",
             "likes": "128",
             "comments": "4",
+            "product": ""
+          }
+        },
+        "instagram_block_XPWG8b": {
+          "type": "instagram_block",
+          "settings": {
+            "image": "shopify://shop_images/IMG_9598.png",
+            "likes": "64",
+            "comments": "0",
             "product": ""
           }
         },
         "post_3": {
           "type": "instagram_block",
           "settings": {
+            "image": "shopify://shop_images/IMG_9418.png",
             "likes": "95",
             "comments": "2",
             "product": ""
@@ -589,6 +601,7 @@
         "post_4": {
           "type": "instagram_block",
           "settings": {
+            "image": "shopify://shop_images/IMG_9230.png",
             "likes": "84",
             "comments": "1",
             "product": ""
@@ -597,6 +610,7 @@
         "post_5": {
           "type": "instagram_block",
           "settings": {
+            "image": "shopify://shop_images/IMG_9360.png",
             "likes": "150",
             "comments": "8",
             "product": ""
@@ -606,6 +620,7 @@
       "block_order": [
         "post_1",
         "post_2",
+        "instagram_block_XPWG8b",
         "post_3",
         "post_4",
         "post_5"
