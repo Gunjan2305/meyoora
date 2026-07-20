@@ -321,7 +321,7 @@
         "section_width": "full-width",
         "background_color": "#faf8f6",
         "icon_width": 50,
-        "gap": 60,
+        "gap": 15,
         "speed": 20,
         "direction": "normal",
         "padding_top": 24,
