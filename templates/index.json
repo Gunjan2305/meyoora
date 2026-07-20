@@ -356,8 +356,8 @@
         "bg_gradient": "linear-gradient(90deg, rgba(250, 248, 246, 1), rgba(244, 239, 246, 1) 50%, rgba(250, 240, 236, 1) 100%)",
         "background_color": "#faf8f6",
         "section_width": "page-width",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "padding-block-start": 20,
+        "padding-block-end": 20
       }
     },
     "footer_features_9j2Kfs": {
