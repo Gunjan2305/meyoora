@@ -207,6 +207,62 @@
         "padding_bottom": 0
       }
     },
+    "footer_features_9j2Kfs": {
+      "type": "footer-features",
+      "blocks": {
+        "feature_craftsmanship": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150647_image.webp",
+            "icon_preset": "needle",
+            "title": "Craftsmanship",
+            "description": "Built with intention, every detail is carefully considered and precisely finished."
+          }
+        },
+        "feature_made_to_order": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_151311_image.webp",
+            "icon_preset": "mannequin",
+            "title": "Made to Order",
+            "description": "Each piece is created only when you choose it — reducing waste, increasing meaning."
+          }
+        },
+        "feature_fabrics": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150433_image.webp",
+            "icon_preset": "fabrics",
+            "title": "Fabrics",
+            "description": "We work with thoughtfully selected fabrics that feel as good as they look."
+          }
+        },
+        "feature_stylish_yet": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150922_image.webp",
+            "icon_preset": "dress",
+            "title": "Stylish Yet",
+            "description": "Designed to stand out effortlessly, without ever trying too hard."
+          }
+        }
+      },
+      "block_order": [
+        "feature_craftsmanship",
+        "feature_made_to_order",
+        "feature_fabrics",
+        "feature_stylish_yet"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "background_color": "#faf8f6",
+        "text_color": "#1c1b1b",
+        "accent_color": "#641b16",
+        "heading": "More than clothing - [a reflection] of how you choose to show up",
+        "padding-block-start": 36,
+        "padding-block-end": 36
+      }
+    },
     "image_icon_list_jKg3fs": {
       "type": "image-icon-list",
       "blocks": {
@@ -270,62 +326,6 @@
         "direction": "normal",
         "padding_top": 24,
         "padding_bottom": 24
-      }
-    },
-    "footer_features_9j2Kfs": {
-      "type": "footer-features",
-      "blocks": {
-        "feature_craftsmanship": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150647_image.webp",
-            "icon_preset": "needle",
-            "title": "Craftsmanship",
-            "description": "Built with intention, every detail is carefully considered and precisely finished."
-          }
-        },
-        "feature_made_to_order": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_151311_image.webp",
-            "icon_preset": "mannequin",
-            "title": "Made to Order",
-            "description": "Each piece is created only when you choose it — reducing waste, increasing meaning."
-          }
-        },
-        "feature_fabrics": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150433_image.webp",
-            "icon_preset": "fabrics",
-            "title": "Fabrics",
-            "description": "We work with thoughtfully selected fabrics that feel as good as they look."
-          }
-        },
-        "feature_stylish_yet": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150922_image.webp",
-            "icon_preset": "dress",
-            "title": "Stylish Yet",
-            "description": "Designed to stand out effortlessly, without ever trying too hard."
-          }
-        }
-      },
-      "block_order": [
-        "feature_craftsmanship",
-        "feature_made_to_order",
-        "feature_fabrics",
-        "feature_stylish_yet"
-      ],
-      "settings": {
-        "section_width": "page-width",
-        "background_color": "#faf8f6",
-        "text_color": "#1c1b1b",
-        "accent_color": "#641b16",
-        "heading": "More than clothing - [a reflection] of how you choose to show up",
-        "padding-block-start": 36,
-        "padding-block-end": 36
       }
     },
     "instagram_video_popup_L5jKds": {
@@ -398,8 +398,8 @@
     "hero_jVaWmY",
     "collection_tabs_QyaQxH",
     "featured_promo_marquee_mKj5ds",
-    "image_icon_list_jKg3fs",
     "footer_features_9j2Kfs",
+    "image_icon_list_jKg3fs",
     "instagram_video_popup_L5jKds"
   ]
 }
