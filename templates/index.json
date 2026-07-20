@@ -207,62 +207,6 @@
         "padding_bottom": 0
       }
     },
-    "footer_features_9j2Kfs": {
-      "type": "footer-features",
-      "blocks": {
-        "feature_craftsmanship": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150647_image.webp",
-            "icon_preset": "needle",
-            "title": "Craftsmanship",
-            "description": "Built with intention, every detail is carefully considered and precisely finished."
-          }
-        },
-        "feature_made_to_order": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_151311_image.webp",
-            "icon_preset": "mannequin",
-            "title": "Made to Order",
-            "description": "Each piece is created only when you choose it — reducing waste, increasing meaning."
-          }
-        },
-        "feature_fabrics": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150433_image.webp",
-            "icon_preset": "fabrics",
-            "title": "Fabrics",
-            "description": "We work with thoughtfully selected fabrics that feel as good as they look."
-          }
-        },
-        "feature_stylish_yet": {
-          "type": "feature",
-          "settings": {
-            "image": "shopify://shop_images/craiyon_150922_image.webp",
-            "icon_preset": "dress",
-            "title": "Stylish Yet",
-            "description": "Designed to stand out effortlessly, without ever trying too hard."
-          }
-        }
-      },
-      "block_order": [
-        "feature_craftsmanship",
-        "feature_made_to_order",
-        "feature_fabrics",
-        "feature_stylish_yet"
-      ],
-      "settings": {
-        "section_width": "page-width",
-        "background_color": "#faf8f6",
-        "text_color": "#1c1b1b",
-        "accent_color": "#641b16",
-        "heading": "More than clothing - [a reflection] of how you choose to show up",
-        "padding-block-start": 36,
-        "padding-block-end": 36
-      }
-    },
     "image_icon_list_jKg3fs": {
       "type": "image-icon-list",
       "blocks": {
@@ -326,6 +270,150 @@
         "direction": "normal",
         "padding_top": 24,
         "padding_bottom": 24
+      }
+    },
+    "style_moods_BnBMnQ": {
+      "type": "style-moods",
+      "blocks": {
+        "mood_block_NVGbKK": {
+          "type": "mood_block",
+          "settings": {
+            "product": "",
+            "bg_color": "#d2b9d4",
+            "custom_text": "SUMMER SHELL SHIRT",
+            "text_color": "#e28d68",
+            "text_size": 14,
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        "mood_block_ch9rt6": {
+          "type": "mood_block",
+          "settings": {
+            "product": "",
+            "bg_color": "#8198b1",
+            "custom_text": "LIMONCELLO CUTSY DRESS",
+            "text_color": "#ecc06c",
+            "text_size": 14,
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        "mood_block_AJmnxt": {
+          "type": "mood_block",
+          "settings": {
+            "product": "",
+            "bg_color": "#efe8e1",
+            "custom_text": "STARFISH SET",
+            "text_color": "#cd9862",
+            "text_size": 14,
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        "mood_block_t6XBjq": {
+          "type": "mood_block",
+          "settings": {
+            "product": "",
+            "bg_color": "#efcbc4",
+            "custom_text": "PINACOLADA MINI",
+            "text_color": "#d47a6a",
+            "text_size": 14,
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        },
+        "mood_block_J36jpA": {
+          "type": "mood_block",
+          "settings": {
+            "product": "",
+            "bg_color": "#d2d5ce",
+            "custom_text": "CHIC VEST-SKORT SET",
+            "text_color": "#3f92c3",
+            "text_size": 14,
+            "image_offset_y": 20,
+            "image_scale": 100
+          }
+        }
+      },
+      "block_order": [
+        "mood_block_NVGbKK",
+        "mood_block_ch9rt6",
+        "mood_block_AJmnxt",
+        "mood_block_t6XBjq",
+        "mood_block_J36jpA"
+      ],
+      "name": "Style Moods",
+      "settings": {
+        "heading_normal": "Style",
+        "heading_gradient": "Moods",
+        "heading_size": 64,
+        "heading_color": "#566573",
+        "gradient_start": "#A0A6B2",
+        "gradient_end": "#8D6B94",
+        "gradient_angle": 90,
+        "enable_custom_bg": true,
+        "bg_gradient": "linear-gradient(90deg, rgba(250, 248, 245, 1), rgba(244, 239, 246, 1) 50%, rgba(250, 240, 236, 1) 100%)",
+        "background_color": "#FAF8F6",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
+    "footer_features_9j2Kfs": {
+      "type": "footer-features",
+      "blocks": {
+        "feature_craftsmanship": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150647_image.webp",
+            "icon_preset": "needle",
+            "title": "Craftsmanship",
+            "description": "Built with intention, every detail is carefully considered and precisely finished."
+          }
+        },
+        "feature_made_to_order": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_151311_image.webp",
+            "icon_preset": "mannequin",
+            "title": "Made to Order",
+            "description": "Each piece is created only when you choose it — reducing waste, increasing meaning."
+          }
+        },
+        "feature_fabrics": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150433_image.webp",
+            "icon_preset": "fabrics",
+            "title": "Fabrics",
+            "description": "We work with thoughtfully selected fabrics that feel as good as they look."
+          }
+        },
+        "feature_stylish_yet": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/craiyon_150922_image.webp",
+            "icon_preset": "dress",
+            "title": "Stylish Yet",
+            "description": "Designed to stand out effortlessly, without ever trying too hard."
+          }
+        }
+      },
+      "block_order": [
+        "feature_craftsmanship",
+        "feature_made_to_order",
+        "feature_fabrics",
+        "feature_stylish_yet"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "background_color": "#faf8f6",
+        "text_color": "#1c1b1b",
+        "accent_color": "#641b16",
+        "heading": "More than clothing - [a reflection] of how you choose to show up",
+        "padding-block-start": 36,
+        "padding-block-end": 36
       }
     },
     "instagram_video_popup_L5jKds": {
@@ -399,6 +487,7 @@
     "collection_tabs_QyaQxH",
     "featured_promo_marquee_mKj5ds",
     "image_icon_list_jKg3fs",
+    "style_moods_BnBMnQ",
     "footer_features_9j2Kfs",
     "instagram_video_popup_L5jKds"
   ]
