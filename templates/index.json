@@ -322,7 +322,7 @@
         "background_color": "#faf8f6",
         "icon_width": 50,
         "gap": 15,
-        "speed": 14,
+        "speed": 15,
         "direction": "normal",
         "padding_top": 24,
         "padding_bottom": 24
@@ -398,8 +398,8 @@
     "hero_jVaWmY",
     "collection_tabs_QyaQxH",
     "featured_promo_marquee_mKj5ds",
-    "footer_features_9j2Kfs",
     "image_icon_list_jKg3fs",
+    "footer_features_9j2Kfs",
     "instagram_video_popup_L5jKds"
   ]
 }
