@@ -46,6 +46,9 @@
               class="ins-popup__card" 
               style="border-radius: {{ section.settings.card_border_radius }}px;"
               data-video-src="{{ video_src }}"
+              {% if block.settings.image != blank %}
+                data-image-src="{{ block.settings.image | image_url: width: 800 }}"
+              {% endif %}
             >
               <!-- Thumbnail -->
               {% if block.settings.image != blank %}
@@ -92,15 +95,24 @@
                       </div>
                       <div class="ins-popup__modal-product-action">
                         <product-form-component data-product-id="{{ prod.id }}" data-section-id="{{ section.id }}">
+                          <div class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></div>
                           {%- form 'product', prod, class: 'form', data-type: 'add-to-cart-form' -%}
-                            <input type="hidden" name="id" value="{{ prod.selected_or_first_available_variant.id }}">
-                            <button type="submit" name="add" class="ins-popup__add-to-cart-btn" aria-label="Add to cart" {% unless prod.available %}disabled{% endunless %}>
-                              {% if prod.available %}
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ins-popup__cart-svg"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                              {% else %}
-                                Out
-                              {% endif %}
-                            </button>
+                            <input type="hidden" name="id" ref="variantId" value="{{ prod.selected_or_first_available_variant.id }}">
+                            <add-to-cart-component
+                              ref="addToCartButtonContainer"
+                              data-product-variant-media="{{ prod.featured_media.preview_image | image_url: width: 100 }}"
+                              data-add-to-cart-animation="true"
+                            >
+                              <button type="submit" name="add" ref="addToCartButton" on:click="/handleClick" class="ins-popup__add-to-cart-btn" aria-label="Add to cart" {% unless prod.available %}disabled{% endunless %}>
+                                {% if prod.available %}
+                                  <span class="ins-popup__cart-svg-wrapper">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ins-popup__cart-svg"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                  </span>
+                                {% else %}
+                                  Out
+                                {% endif %}
+                              </button>
+                            </add-to-cart-component>
                           {%- endform -%}
                         </product-form-component>
                       </div>
@@ -395,6 +407,7 @@
   .ins-modal__container {
     position: relative;
     width: min(90vw, 420px);
+    height: 70%;
     aspect-ratio: 9/16;
     background-color: #000;
     border-radius: 16px;
@@ -442,6 +455,13 @@
   }
 
   .ins-modal__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ins-modal__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -553,65 +573,99 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const section = document.getElementById('InsPopup-{{ section.id }}');
-    if (!section) return;
+  (function() {
+    function initInstagramPopup(section) {
+      if (!section) return;
+      if (section.dataset.initialized === 'true') return;
+      section.dataset.initialized = 'true';
 
-    const track = section.querySelector('.ins-popup__track');
-    const leftArrow = section.querySelector('.ins-popup__arrow--left');
-    const rightArrow = section.querySelector('.ins-popup__arrow--right');
+      const track = section.querySelector('.ins-popup__track');
+      const leftArrow = section.querySelector('.ins-popup__arrow--left');
+      const rightArrow = section.querySelector('.ins-popup__arrow--right');
 
-    if (track && leftArrow && rightArrow) {
-      leftArrow.addEventListener('click', () => {
-        track.scrollBy({ left: -track.clientWidth / 2, behavior: 'smooth' });
-      });
+      if (track && leftArrow && rightArrow) {
+        leftArrow.addEventListener('click', () => {
+          track.scrollBy({ left: -track.clientWidth / 2, behavior: 'smooth' });
+        });
 
-      rightArrow.addEventListener('click', () => {
-        track.scrollBy({ left: track.clientWidth / 2, behavior: 'smooth' });
-      });
-    }
-
-    // Modal behavior
-    const modal = document.getElementById('InsModal-{{ section.id }}');
-    const modalBody = modal.querySelector('.ins-modal__body');
-    const modalClose = modal.querySelector('.ins-modal__close');
-    const modalOverlay = modal.querySelector('.ins-modal__overlay');
-    const cards = section.querySelectorAll('.ins-popup__card');
-
-    function openModal(videoSrc, productHtml) {
-      if (!videoSrc) return;
-      let content = `
-        <video class="ins-modal__video" autoplay loop controls playsinline>
-          <source src="${videoSrc}" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      `;
-      if (productHtml) {
-        content += productHtml;
+        rightArrow.addEventListener('click', () => {
+          track.scrollBy({ left: track.clientWidth / 2, behavior: 'smooth' });
+        });
       }
-      modalBody.innerHTML = content;
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden'; // Stop page scroll
-    }
 
-    function closeModal() {
-      modalBody.innerHTML = '';
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
+      // Modal behavior
+      const modal = section.querySelector('.ins-modal');
+      if (!modal) return;
+      const modalBody = modal.querySelector('.ins-modal__body');
+      const modalClose = modal.querySelector('.ins-modal__close');
+      const modalOverlay = modal.querySelector('.ins-modal__overlay');
+      const cards = section.querySelectorAll('.ins-popup__card');
 
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const videoSrc = card.getAttribute('data-video-src');
-        const prodData = card.querySelector('.ins-popup__product-data');
-        const productHtml = prodData ? prodData.innerHTML : '';
-        openModal(videoSrc, productHtml);
+      function openModal(videoSrc, imgSrc, productHtml) {
+        if (!videoSrc && !imgSrc) return;
+        let content = '';
+        if (videoSrc) {
+          content = `
+            <video class="ins-modal__video" autoplay loop controls playsinline>
+              <source src="${videoSrc}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          `;
+        } else if (imgSrc) {
+          content = `
+            <img class="ins-modal__img" src="${imgSrc}" alt="Instagram post" />
+          `;
+        }
+        if (productHtml) {
+          content += productHtml;
+        }
+        modalBody.innerHTML = content;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // Stop page scroll
+      }
+
+      function closeModal() {
+        modalBody.innerHTML = '';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const videoSrc = card.getAttribute('data-video-src');
+          let imgSrc = card.getAttribute('data-image-src');
+          if (!videoSrc && !imgSrc) {
+            const imgEl = card.querySelector('.ins-popup__img');
+            if (imgEl) {
+              imgSrc = imgEl.src || '';
+            }
+          }
+          const prodData = card.querySelector('.ins-popup__product-data');
+          const productHtml = prodData ? prodData.innerHTML : '';
+          openModal(videoSrc, imgSrc, productHtml);
+        });
       });
+
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.ins-popup').forEach(initInstagramPopup);
     });
 
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
-  });
+    // Run immediately in case script is loaded after DOMContentLoaded
+    document.querySelectorAll('.ins-popup').forEach(initInstagramPopup);
+
+    // Initialize in Shopify Theme Editor
+    document.addEventListener('shopify:section:load', function(event) {
+      const section = event.target.querySelector('.ins-popup');
+      if (section) {
+        initInstagramPopup(section);
+      }
+    });
+  })();
 </script>
 
 {% schema %}
