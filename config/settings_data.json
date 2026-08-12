@@ -46,6 +46,7 @@
     "page_width": "narrow",
     "page_transition_enabled": false,
     "transition_to_main_product": false,
+    "add_to_cart_animation": true,
     "card_hover_effect": "none",
     "badge_position": "top-right",
     "badge_corner_radius": 100,
@@ -105,9 +106,9 @@
     "content_for_index": [],
     "color_palette": {
       "background": "#ffffff",
-      "foreground": "#000000",
+      "foreground": "#641B16",
       "color1": "#333333",
-      "color2": "#DFDFDF"
+      "color2": "#dfdfdf"
     }
   },
   "presets": {
