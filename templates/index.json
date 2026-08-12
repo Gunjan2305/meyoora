@@ -339,7 +339,7 @@
       ],
       "name": "t:names.product_recommendations",
       "settings": {
-        "product": "{{ closest.product }}",
+        "product": "blooming-breeze-cord-set",
         "recommendation_type": "related",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
