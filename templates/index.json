@@ -530,6 +530,9 @@
       "block_order": [
         "judge_me_reviews_review_widget_homepage_q8hQmC"
       ],
+      "custom_css": [
+        ".style-moods-wrapper {}"
+      ],
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
